@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' type='text/css' href="{% static '/css/bootstrap.min.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .img{
+        height:200px;
+      }
+    </style>
+    <title>Gallery</title>
+  </head>
+  <body class="m-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              Category
+            </div>
+            <ul class="list-group list-group-flush">
+              <a href="{% url 'gallery' %}">
+                <li class="list-group-item" type="button">All</li>
+              </a>
+              {% for category in categories  %}
+              <a href="{%url 'gallery'%}?category={{category.name}} ">
+                <li class="list-group-item" type="button" >{{category.name}} </li>
+              </a>
+              {% endfor %}
+              <a href="{% url 'add' %}" class="btn btn-md btn-info m-2 btn-block text-white " tabindex="-1" role="button" aria-disabled="true"> Add Photos</a>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            {% for photo in photos  %}
+            <div class="col-md-4">
+              <div class="card my-3" >
+                <img src="{{photo.image.url}} " class=" img img-thumbnail  object-cover " alt="...">
+                <div class="card-body">
+                  <small class="card-text">Category : {{photo.category}} </small>
+                </div>
+                <a href="{% url 'photo' photo.id %}" class="btn btn-md btn-outline-info m-2 " tabindex="-1" role="button" aria-disabled="true"> View</a>
+              </div>
+            </div>
+            {%empty%}
+            <h3>No photos</h3>
+            {% endfor %}
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
+
